@@ -36,10 +36,16 @@
          */
         createPlatform(0, game.world.height - 32, 3, 2);    // DO NOT DELETE
 
-        // example:
-        createPlatform(400, 250);
-        createPlatform(170, 460, 0.5);
-        
+        createPlatform(0,480,0.7); //left platform above spawn
+        createPlatform(500,560,1,10);// right bottom platform
+        createPlatform(460,625,.1,1);//blocking cube for prior platform
+        createPlatform(0,400,.2,2.6);//left small platform
+        createPlatform(183,340,.2);//right small platform
+        createPlatform(250,280,.05,2);// wall for prior platform
+        createPlatform(270,270,1,1); //Middle platform
+        createPlatform(80,455,.1,.8);// blocking platform for left small platform
+        createPlatform(865,400,.1,1);//finish platform  
+             
         // ALL YOUR CODE GOES ABOVE HERE ///////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
     }
