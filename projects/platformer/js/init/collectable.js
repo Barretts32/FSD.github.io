@@ -40,6 +40,7 @@
         createCollectable(type.steve, 410,200,0);
         createCollectable(type.steve, 840,500,0);
         createCollectable(type.steve, 840,330,0);
+        
         // ALL YOUR CODE GOES ABOVE HERE ///////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
     };
