@@ -15,9 +15,23 @@
 			position: absolute;
 			top: 100px;
 			left: 0px;  /* <--- Change me! */
+			user-select: none;
 		}
 		.board{
 			height: 100vh;
+		}
+		.scoreboard{
+			user-select: none;
+		}
+		.gameover{
+			width: 400px;
+			height: 400px;
+			background-color: lightcoral;
+			font-size: 500%;
+			text-align: center;
+			display: none;
+			position: absolute;
+			top: 100px;
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -26,7 +40,13 @@
 <body class="board">
 	<!-- HTML for the box -->
 	<div class="box">?</div>
-
+	<div class = 'scoreboard'>
+		<p id = 'score'>Your Score:</p>
+		<p id = 'missclicks'>MissClicks:</p>
+	</div>
+	<div class = 'gameover' >
+		<p>Game Over!</p>
+	</div>
 	<script>
 		(function(){
 			'use strict'
@@ -39,16 +59,18 @@
 			var box = jQuery('.box');	// reference to the HTML .box element
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
-
+			var boardHeight = jQuery(window).height(); 
 			// Every 50 milliseconds, call the update Function (see below)
-			setInterval(update, 50);
+			var interval = setInterval(update, 1);
 			
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
 			box.on('click', handleBoxClick);
+			board.on('click', missClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css('top', newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -61,28 +83,79 @@
 			//////////////////////////////////////////////////////////////////
 			
 			// TODO 2 - Variable declarations 
-			
-
-			
+			var positionX = 0;
+			var positionY = 100;
+			var points = 0;
+			var speed = 1;
+			var speedY = 1;
+			var missClicks = 0;
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
 			it should move the Box to a new location. If the box drifts off the screen
 			turn it around! 
 			*/
 			function update() {
+				if(positionX >= boardWidth){
+					speed= -speed;
+				}
+				if(positionX < 0 ){
+					speed*= -1;
+				}
+				if(positionY >= boardHeight){
+					speedY= -speedY;
+				}
+				if(positionY < 0 ){
+					speedY*= -1;
+				}
+				positionX+=speed;
+				positionY+=speedY;
+				moveBoxTo(positionX,positionY);
 				
-
 			};
-
+			function randomColor(){
+				return `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
+			}
+			function missClick(){
+				missClicks++;
+				document.getElementById('missclicks').innerHTML = 'Your Missclicks:' + missClicks;
+				if (missClicks >= 10){
+					clearInterval(interval);
+					gameover.style.display = 'block';
+				}
+			}
+			
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
+				positionX = Math.random()*boardWidth;
+				positionY = Math.random()*boardHeight;
+				points++;
+				randomColor();
+				changeBoxText(points);
+				missClicks = -1;
+				if (speed >= 0){
+					speed+= Math.random();
+				}
+				else{
+					speed-= Math.random();
+				}
+				if (speedY >= 0){
+					speedY+= Math.random();
+				}
+				else{
+					speedY-= Math.random();
+				}
+				if (points % 4 === 0){
+					box.css('background-color', randomColor());
+					speed = speed/2;
+					speedY = speedY/2;
+				}
+				document.getElementById('score').innerHTML = 'Your Score:' + points;
+				document.getElementById('missclicks').innerHTML = 'Your Missclicks:' + missClicks;
 				
-
-
 			};
 		})();
 	</script>
