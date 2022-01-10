@@ -24,15 +24,20 @@
 			user-select: none;
 		}
 		.gameover{
-			width: 400px;
-			height: 400px;
-			background-color: lightcoral;
-			font-size: 500%;
+			width: 700px;
+			height: 500px;
+			background-color: coral;
+			font-size: 600%;
 			text-align: center;
+			position: relative;
 			display: none;
-			position: absolute;
-			top: 100px;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: auto;
+			margin-bottom: auto;
+			user-select: none;
 		}
+
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 
@@ -42,10 +47,10 @@
 	<div class="box">?</div>
 	<div class = 'scoreboard'>
 		<p id = 'score'>Your Score:</p>
-		<p id = 'missclicks'>MissClicks:</p>
+		<p id = 'missclicks'>Miss Clicks:</p>
 	</div>
-	<div class = 'gameover' >
-		<p>Game Over!</p>
+	<div class='gameover'>
+		<p>GAME OVER!</p>
 	</div>
 	<script>
 		(function(){
@@ -58,6 +63,7 @@
 			
 			var box = jQuery('.box');	// reference to the HTML .box element
 			var board = jQuery('.board');	// reference to the HTML .board element
+			var gameover =jQuery('.gameover');
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
 			var boardHeight = jQuery(window).height(); 
 			// Every 50 milliseconds, call the update Function (see below)
@@ -116,14 +122,18 @@
 				return `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
 			}
 			function missClick(){
-				missClicks++;
-				document.getElementById('missclicks').innerHTML = 'Your Missclicks:' + missClicks;
-				if (missClicks >= 10){
-					clearInterval(interval);
-					gameover.style.display = 'block';
+				if (typeof(interval) !== "undefined"){
+					missClicks++;
+					document.getElementById('missclicks').innerHTML = 'Your Miss clicks: ' + missClicks;
+					if (missClicks >= 10){
+						clearInterval(interval);
+						interval = undefined
+						gameover.css('display', 'block');
+						gameover.append("Your Score is: " + points);
+						
+					}
 				}
 			}
-			
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
@@ -153,8 +163,8 @@
 					speed = speed/2;
 					speedY = speedY/2;
 				}
-				document.getElementById('score').innerHTML = 'Your Score:' + points;
-				document.getElementById('missclicks').innerHTML = 'Your Missclicks:' + missClicks;
+				document.getElementById('score').innerHTML = 'Your Score: ' + points;
+				document.getElementById('missclicks').innerHTML = 'Your Miss clicks: ' + missClicks;
 				
 			};
 		})();
