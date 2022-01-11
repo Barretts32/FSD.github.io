@@ -24,7 +24,6 @@
 		.scoreboard{
 			user-select: none;
 			color: crimson;
-			font-style:;
 		}
 		.gameover{
 			width: 700px;
@@ -133,6 +132,7 @@
 						interval = undefined
 						gameover.css('display', 'block');
 						gameover.append("Your Score is: " + points);
+						gameover.append("<button id = 'playagain' onClick = 'window.location.reload();'>Click To Play Again!</button>");
 						
 					}
 				}
