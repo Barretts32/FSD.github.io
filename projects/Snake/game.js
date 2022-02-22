@@ -1,9 +1,12 @@
-let lastRenderTime = 0
-let inputDirection = {x:0, y:0} 
-let food = {x: 19, y: 22}
-const snakeSpeed = 2;
-const expansionRate = 1;
+let lastRenderTime = 0;
+const GRID_SIZE = 30;
+let inputDirection = {x:0, y:0}; 
+var food = {x: 15, y: 13}; 
+const snakeSpeed = 3;
+const expansionRate = 2;
+let newSegments = 0;
 const gameBoard = document.getElementById('board')
+let gameOver = false
 
 
 function main(currentTime){
@@ -25,17 +28,46 @@ const snakeBody = [
 ];
 
 function update(){
-    for(var i = snakeBody.length; i>=10; i--){
-        snakeBody[i+1] = { ... snakeBody[i] }
+    for(var i = snakeBody.length-2; i>=0; i--){
+        snakeBody[i + 1] = { ... snakeBody[i] }
         }
     snakeBody[0].x += inputDirection.x
     snakeBody[0].y += inputDirection.y
 
     if(onSnake(food)) {
         expandSnake(expansionRate)
-        food = {x: 15, y:3}
+        getRandomFoodPosition()
+    }
+    addSegments()
+    if (snakeBody[0].y < 1){
+        gameOver = true
     }
 
+    if(gameOver){
+        return alert("You Lose!")
+        
+    }
+}
+
+function onSnake(position){
+    return snakeBody.some(segment => {
+        return equalPositions(segment, position)
+    })
+}
+
+function equalPositions(pos1, pos2){
+    return pos1.x === pos2.x && pos1.y === pos2.y
+}
+
+function expandSnake(amount){
+    newSegments += amount;
+}
+
+function addSegments(){
+    for(let i = 0; i < newSegments; i++){
+        snakeBody.push({...snakeBody[snakeBody.length-1]})
+    }
+    newSegments = 0
 }
 
 function draw(){
@@ -54,6 +86,23 @@ function draw(){
     gameBoard.appendChild(foodElement)
     
 }
+
+function getRandomFoodPosition(){
+    let newFoodPosition
+    while(newFoodPosition == null || onSnake(newFoodPosition)){
+        newFoodPosition = randomGridPosition()
+    }
+    food = newFoodPosition
+}
+
+
+function randomGridPosition(){
+    return{
+        x: Math.floor(Math.random() * GRID_SIZE) + 1,
+        y: Math.floor(Math.random() * GRID_SIZE) + 1
+    }
+}
+
 
 window.addEventListener('keydown', e => {
     let lastInputDirection = inputDirection
