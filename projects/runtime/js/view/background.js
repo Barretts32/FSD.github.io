@@ -54,9 +54,9 @@ var background = function (window) {
             background.addChild(moon); //adds the variable storing the moon to the background element
             
             // TODO 5: Part 1 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
-            for(var i=0;i<5;++i) { //creates a loop that will run 5 times
+            for(var i=0;i<10;++i) { //creates a loop that will run 5 times
                 var buildingHeight = 300 * Math.random() + 100; //sets a variable to building height
-                var building = draw.rect(75,buildingHeight,'lightgrey','Black',1);// defines a variable named building that is set to the return of a rect draw function
+                var building = draw.rect(75,buildingHeight, '#5BA3CD' ,'Black',1);// defines a variable named building that is set to the return of a rect draw function
                 building.x = 200*i; //sets the location of the building to 200 pixels multiplicative of the instance of the for loop it is on
                 building.y = groundY-buildingHeight; //sets the y loc of the building to the ground plus the building height
                 background.addChild(building); //adds the building to the background element
@@ -88,7 +88,10 @@ var background = function (window) {
             
             // TODO 5: Part 2 - Parallax
             for (var i = 0; i < buildings.length; i++) { //creates a for loop that will run the number of indexes in the building array
-                buildings[i].x -= 0.1; // updates the builing x pos to .1 to the left
+                buildings[i].x -= 0.3; // updates the builing x pos to .3 to the left
+                if(buildings[i].x < -80){ //checks if the building is beyond the left of the canvas
+                    buildings[i].x = canvasWidth; //sends the building back to the right of the canvas
+                }
             }
             
 

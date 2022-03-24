@@ -24,9 +24,12 @@
             projectile.volatility = 10;
             projectile.velocityMax = 10;
             
+            
             projectile.handleCollision = function (impact) {
                 // TODO : Consider if particles are necessary here //
                 // particleManager.makeEmitter(1, 2, '#FF0000').emit({x: projectile.x, y: projectile.y}, 0.5);
+                
+            
             };
             
             return projectile;

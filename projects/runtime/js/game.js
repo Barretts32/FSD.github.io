@@ -105,7 +105,8 @@
                     body.onPlayerCollision(body);    
                 }
                 else if(otherBody.type == 'projectile') {
-                    body.onProjectileCollision(body);    
+                    body.onProjectileCollision(body);
+                      
                 }
             }
 
