@@ -47,8 +47,8 @@ var level01 = function (window) {
             ]
         };
 
-        for(var i = 0; i < levelData.gameItems.length; i++){
-            if(levelData.gameItems[i].type === "sawblade"){
+        for(var i = 0; i < levelData.gameItems.length; i++){ //creates a for loop that will loop until it has gone through all objects in the game items array
+            if(levelData.gameItems[i].type === "sawblade"){ //checks if the looped index if of type sawblade and if so creates the game item
                 createSawBlade(levelData.gameItems[i].x, levelData.gameItems[i].y);
             }
             if(levelData.gameItems[i].type === "pit"){
@@ -78,7 +78,7 @@ var level01 = function (window) {
         }
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(true);
+        game.setDebugMode(false);
 
         // TODO 6 and on go here
         // BEGIN EDITING YOUR CODE HERE
