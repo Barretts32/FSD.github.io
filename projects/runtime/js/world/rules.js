@@ -33,12 +33,12 @@
         var ay = (ty - bodyB.y) * _spring;
 
         // the only collisions we want to deal with are projectile and an element, 
-        if(bodyB.type == 'projectile') {
+        if(bodyB.type == 'projectile' && bodyA.type === 'enemy') {
             bodyA.handleCollision(impactProperties.impact, bodyB);
             bodyB.velocityX += ax;
             bodyB.velocityY += ay;
         }
-        if(bodyA.type == 'projectile') {
+        if(bodyA.type == 'projectile' && bodyB.type === 'enemy') {
             bodyB.handleCollision(impactProperties.impact, bodyA);
             bodyA.velocityX -= ax;
             bodyA.velocityY -= ay;
