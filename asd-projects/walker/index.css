@@ -4,8 +4,8 @@ body {
 }
 
 #board {
-  width: 440px;
-  height: 440px;
+  width: 1000px;
+  height: 1000px;
   border: 1px solid white;
   background-color: black;
   position: relative;
@@ -47,7 +47,7 @@ body {
 
 #playAgain {
   top: 60%;
-  left: 45%;
+  left: 47%;
   height: 100px;
   width: 200px;
   position: fixed;
