@@ -10,8 +10,8 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
-  var BOARD_WIDTH = Number($('#board').css('width').replace(/\D/g, ''));
-  var BOARD_HEIGHT = Number($('#board').css('height').replace(/\D/g, ''));
+  var BOARD_WIDTH = $('#board').width();
+  var BOARD_HEIGHT = $('#board').height();
   
   var KEY = {
     'UP': 38,
@@ -25,21 +25,26 @@ function runProgram(){
   }
   
   // Game Item Objects
+  var $walker = $('#walker');
+  var $tagger = $('#tagger');
+
   var walker = {
     'x': 1,
     'y': 1,
     'speedX': 0,
     'speedY': 0,
-    'diameter': Number($('#walker').css('width').replace(/\D/g, ''))
+    'diameter': $walker.width()
   }
 
   var tagger = {
-    'x': BOARD_WIDTH - Number($('#tagger').css('width').replace(/\D/g, '')) - 1,
-    'y': BOARD_HEIGHT - Number($('#tagger').css('width').replace(/\D/g, '')) - 1,
+    'x': BOARD_WIDTH - $tagger.width() - 1,
+    'y': BOARD_HEIGHT - $tagger.width() - 1,
     'speedX': 0,
     'speedY': 0,
-    'diameter': Number($('#tagger').css('width').replace(/\D/g, ''))
+    'diameter': $tagger.width()
   }
+
+
 
   var speedScalar = 3;
   // one-time setup
@@ -57,7 +62,7 @@ function runProgram(){
   function newFrame() {
     repositionGameItem();
     redrawGameItem();
-    //console.log(tagger);
+    
   }
   
   /* 
@@ -137,14 +142,15 @@ function runProgram(){
   }
 
   function redrawGameItem(){
-    $('#walker').css('left', walker.x);
-    $('#walker').css('top', walker.y);
+    $walker.css('left', walker.x);
+    $walker.css('top', walker.y);
 
-    $('#tagger').css('left', tagger.x);
-    $('#tagger').css('top', tagger.y);
+    $tagger.css('left', tagger.x);
+    $tagger.css('top', tagger.y);
   }
 
   function collision(){
+
   }
   
   function endGame() {
