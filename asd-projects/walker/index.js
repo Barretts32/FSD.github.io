@@ -43,14 +43,13 @@ function runProgram(){
     'speedY': 0,
     'diameter': $tagger.width()
   }
-
-
-
+  
   var speedScalar = 3;
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', handleKeyDown);                           // change 'eventType' to the type of event you want to handle
   $(document).on('keyup', handleKeyUp);
+  $('#playAgain').on('click', playAgain);
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +61,8 @@ function runProgram(){
   function newFrame() {
     repositionGameItem();
     redrawGameItem();
+    collision();
+    //console.log(tagger.x);
     
   }
   
@@ -150,7 +151,12 @@ function runProgram(){
   }
 
   function collision(){
-
+    var distance = Math.sqrt(Math.pow(walker.x - tagger.x, 2) + Math.pow(walker.y - tagger.y, 2));
+    if(distance <= 50){
+      endGame();
+      $('#gameOver').css('visibility', 'visible');
+      $('#playAgain').css('visibility', 'visible');
+    }
   }
   
   function endGame() {
@@ -159,6 +165,10 @@ function runProgram(){
 
     // turn off event handlers
     $(document).off();
+  }
+
+  function playAgain(){
+    location.reload();
   }
   
 }
