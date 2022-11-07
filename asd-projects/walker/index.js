@@ -64,6 +64,7 @@ function runProgram(){
     collision();
     //console.log(tagger.x);
     
+    
   }
   
   /* 
