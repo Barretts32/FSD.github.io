@@ -81,3 +81,31 @@ function reset() {
     }
   }
 }
+
+function applyFilter(filterFunction){
+  for (var i = 0; i < image.length; i++){
+    for (var k = 0; k < image[i].length; k++){
+      rgbString = image[i][k];
+      rgbNumbers = rgbStringToArray(rgbString);
+      filterFunction(rgbNumbers);
+      rgbString = rgbArrayToString(rgbNumbers);
+      image[i][k] = rgbString;
+    }
+  }
+}
+
+function reddify(arr){
+  arr[RED] = 200;
+}
+
+function keepInBounds(x){
+  return Math.min(Math.max(x,0), 255);
+}
+
+function decreaseBlue(arr){
+  arr[BLUE] = keepInBounds(arr[BLUE] - 50);
+}
+
+function increaseGreenByBlue(arr){
+  arr[GREEN] = keepInBounds(arr[GREEN] + arr[BLUE]);
+}
