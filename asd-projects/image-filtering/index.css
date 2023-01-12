@@ -26,3 +26,9 @@ button {
 #reset {
   background: red;
 }
+
+#checklist{
+  position: relative;
+  top: 50px;
+  left: 300px;
+}

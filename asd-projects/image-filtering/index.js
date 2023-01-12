@@ -4,6 +4,20 @@ $(document).ready(function () {
   render($("#display"), image);
   $("#apply").on("click", applyAndRender);
   $("#reset").on("click", resetAndRender);
+  for(filter in filters){
+    $('#filterSelect').append($(`<input type ='checkbox' id = ${filter} name = ${filter} value = 'false'>`))
+    $('#filterSelect').append($(`<label for = ${filter}>${filter}</label><br>`))
+  }
+  $('#filterSelect').change(function(){
+    for(filter in filters){
+      if($(`#${filter}`)[0].checked){
+        activeFilters[filter] = filters[filter];
+      }
+      else{
+        delete activeFilters[filter]
+      }
+    }
+  })
 });
 
 /////////////////////////////////////////////////////////
@@ -20,10 +34,18 @@ function resetAndRender() {
 // all of your apply functions
 function applyAndRender() {
   // Multiple TODOs: Call your apply function(s) here
-  applyFilter(reddify);
-  applyFilter(decreaseBlue);
-  applyFilter(increaseGreenByBlue);
-  
+  //applyFilterNoBackground(filters.reddify);
+  //applyFilterNoBackground(decreaseBlue);
+  //applyFilterNoBackground(increaseGreenByBlue);
+  //applySmudge(basicSmudge);
+  for(filter in activeFilters){
+    if(filter.includes('Smudge')){
+      applySmudge(activeFilters[filter])
+    }
+    else{
+      applyFilterNoBackground(activeFilters[filter])
+    }
+  }
 
   // do not change the below line of code
   render($("#display"), image);

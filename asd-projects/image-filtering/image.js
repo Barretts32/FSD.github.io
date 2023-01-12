@@ -28,6 +28,9 @@ const image = [
 
 // this will keep a backup copy of the original image data
 const og = [];
+var activeFilters = {
+  
+}
 
 // copy the image data into the og variable
 for (var i = 0; i < image.length; i++){
@@ -94,18 +97,60 @@ function applyFilter(filterFunction){
   }
 }
 
-function reddify(arr){
-  arr[RED] = 200;
+var filters = {
+  reddify: function(arr){
+    arr[RED] = 200;
+  },
+  
+  decreaseBlue: function(arr){
+    arr[BLUE] = keepInBounds(arr[BLUE] - 50);
+  },
+
+  increaseGreenByBlue: function(arr){
+    arr[GREEN] = keepInBounds(arr[GREEN] + arr[BLUE]);
+  },
+
+  basicSmudge: function(arr, prevArr){
+    if(prevArr){
+      for(var l = 0; l < arr.length; l++){
+        arr[l] = (prevArr[l] + arr[l])/2;
+        arr[l] = keepInBounds(arr[l]);
+      }
+    }
+  }
 }
 
 function keepInBounds(x){
   return Math.min(Math.max(x,0), 255);
 }
 
-function decreaseBlue(arr){
-  arr[BLUE] = keepInBounds(arr[BLUE] - 50);
+function applySmudge(smudgeFilter){
+  for (var i = 0; i < image.length; i++){
+    for (var k = 0; k < image[i].length; k++){
+      rgbString = image[i][k];
+      if(image[i][k-1]){
+        prevString = image[i][k-1];
+        var prevPixel = rgbStringToArray(prevString)
+      }
+      rgbNumbers = rgbStringToArray(rgbString);
+        smudgeFilter(rgbNumbers, prevPixel);
+        rgbString = rgbArrayToString(rgbNumbers);
+        image[i][k] = rgbString;
+    }
+  }
 }
 
-function increaseGreenByBlue(arr){
-  arr[GREEN] = keepInBounds(arr[GREEN] + arr[BLUE]);
+function applyFilterNoBackground(filterFunction){
+  var backgroundColor = image[0][0];
+  for (var i = 0; i < image.length; i++){
+    for (var k = 0; k < image[i].length; k++){
+      rgbString = image[i][k];
+      rgbNumbers = rgbStringToArray(rgbString);
+      if(rgbString !== backgroundColor){
+        filterFunction(rgbNumbers);
+        rgbString = rgbArrayToString(rgbNumbers);
+        image[i][k] = rgbString;
+      }
+    }
+  }
 }
