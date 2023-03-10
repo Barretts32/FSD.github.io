@@ -11,6 +11,7 @@ function runProgram(){
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
+  //var derivatives = {}
   var leftScore = 0;
   var rightScore = 0;
   var keyState = {}
@@ -44,6 +45,43 @@ function runProgram(){
     if(Math.abs(ballAdditive[1]) < 20){
       ballAdditive[1] *= ballSpeedMulti;
     }
+  }
+
+  function derivative(obj){ //didn't like the speed scaling this produced
+    if(!typeof derivatives[obj] == 'undefined'){
+      derivatives[obj].push(obj.x);
+    }
+    else{
+      derivatives[obj] = [obj.x]
+    }
+  }
+
+  function calcDerivative(obj, width){ //also useless
+    if(derivatives[obj].length() < width){
+      var summation = 0;
+      for(var i = 0; i < derivatives[obj].length; i++){
+        summation += derivatives[obj][i];
+      }
+      return summation / derivatives[obj].length
+    }
+    else{
+      var summation = 0;
+      for(var i = 0; i < width; i++){
+        summation += derivatives[obj][i];
+      }
+      return summation / width
+    }
+  }
+
+  function randomBall(){
+    if((Math.random() < 0.003 ? -1 : 1) == -1){
+      //bonusBall();
+      console.log('chance')
+    }
+  }
+
+  function bonusBall(){
+    
   }
 
   function move(direction, obj){
@@ -174,7 +212,7 @@ function runProgram(){
     move(ballAdditive,'#ball')
     collision();
     gameOver();
-
+    randomBall();
   }
   
   /* 
