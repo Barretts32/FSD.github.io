@@ -212,7 +212,6 @@ function runProgram(){
     move(ballAdditive,'#ball')
     collision();
     gameOver();
-    randomBall();
   }
   
   /* 
